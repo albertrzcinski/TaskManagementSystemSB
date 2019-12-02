@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class User {

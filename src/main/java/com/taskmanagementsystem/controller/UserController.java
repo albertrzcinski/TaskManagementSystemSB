@@ -7,7 +7,7 @@ import com.taskmanagementsystem.model.SetOfTasks;
 import com.taskmanagementsystem.model.Task;
 import com.taskmanagementsystem.model.User;
 import org.springframework.web.bind.annotation.*;
-// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ public class UserController {
     private UserRepository userRepository;
     private SetOfTasksRepository setOfTasksRepository;
     private TaskRepository taskRepository;
-    // private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserRepository userRepository, SetOfTasksRepository setOfTasksRepository, TaskRepository taskRepository) {//, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userRepository, SetOfTasksRepository setOfTasksRepository, TaskRepository taskRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.setOfTasksRepository = setOfTasksRepository;
         this.taskRepository = taskRepository;
-        //this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("all")
@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("create")
     public void createUser(@Valid @RequestBody User user){
         if(userRepository.findAllByEmail(user.getEmail()).isEmpty()) {
-            // user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
 
             //create default sets for new user
@@ -61,7 +61,7 @@ public class UserController {
     @PostMapping("pass")
     public void changePassword(@RequestBody User user){
         if(!userRepository.findAllByEmail(user.getEmail()).isEmpty()){
-             // user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
     }
