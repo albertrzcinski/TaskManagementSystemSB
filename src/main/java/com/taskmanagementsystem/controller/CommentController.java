@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("comments")
+@CrossOrigin
 public class CommentController {
     private CommentRepository commentRepository;
 

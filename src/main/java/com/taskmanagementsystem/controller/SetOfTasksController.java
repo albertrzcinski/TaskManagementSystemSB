@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("sets")
+@CrossOrigin
 public class SetOfTasksController {
     private SetOfTasksRepository setOfTasksRepository;
 

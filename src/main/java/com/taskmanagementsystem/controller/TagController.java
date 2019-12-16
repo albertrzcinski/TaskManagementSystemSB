@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("tags")
+@CrossOrigin
 public class TagController {
     private TagRepository tagRepository;
 
