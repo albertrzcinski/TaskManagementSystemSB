@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.sql.Blob;
 import java.util.List;
 
 @Entity
@@ -24,8 +23,9 @@ public class User {
 
     private String firstName;
     private String lastName;
-    private String timeZone;
-    private Blob photo;
+
+    @Lob
+    private String photo;
 
     @Column(nullable = false)
     @JsonIgnore
@@ -42,12 +42,11 @@ public class User {
 
     public User() {}
 
-    public User(String email, String username, String firstName, String lastName, String timeZone, String password) {
+    public User(String email, String username, String firstName, String lastName, String password) {
         this.email = email;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.timeZone = timeZone;
         this.password = password;
     }
 
@@ -91,19 +90,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
-    }
-
-    public Blob getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Blob photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 

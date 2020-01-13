@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("users")
@@ -40,37 +38,66 @@ public class UserController {
         return userRepository.findAllByEmail(email);
     }
 
+    @GetMapping("me")
+    public User getByUsername(@RequestParam String username) {
+        return userRepository.findByUsername(username);
+    }
+
     //TODO R --> Valid
     @PostMapping("create")
-    public void createUser(@Valid @RequestBody User user){
-        if(userRepository.findAllByEmail(user.getEmail()).isEmpty()) {
+    public String createUser(@Valid @RequestBody User user){
+        //TODO add findByUsername to don't create with the same username
+        List<User> allByEmail = userRepository.findAllByEmail(user.getEmail());
+        List<User> allByUsername = userRepository.findAllByUsername(user.getUsername());
+
+        if(allByEmail.isEmpty() && allByUsername.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
 
             //create default sets for new user
             List<SetOfTasks> setOfTasksList = new ArrayList<>();
             setOfTasksList.add(new SetOfTasks("Inbox", user));
-            setOfTasksList.add(new SetOfTasks("Complete", user));
             setOfTasksRepository.saveAll(setOfTasksList);
 
-            Task defaultTask = new Task(new Date(), "New task", false, setOfTasksList.get(0));
+            Task defaultTask = new Task(new Date(), "Sample task.", false, setOfTasksList.get(0),
+            "Click on task title to edit.");
             taskRepository.save(defaultTask);
+
+            return "Done";
         }
+
+        if(!allByEmail.isEmpty())
+            return "Email is already used.";
+
+        return "Username is already used.";
     }
 
-    // this may be save if setPassword won't encode twice or user has id in RequestBody
-    @PostMapping("pass")
-    public void changePassword(@RequestBody User user){
-        if(!userRepository.findAllByEmail(user.getEmail()).isEmpty()){
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+    @PostMapping("changePass")
+    public String changePassword(@RequestBody Map<String,String> body){
+        Optional<User> dbUser = userRepository.findById(Integer.valueOf(body.get("id")));
+        if(dbUser.isPresent()){
+            User user = dbUser.get();
+            if(passwordEncoder.matches(body.get("oldPass"), user.getPassword())){
+                user.setPassword(passwordEncoder.encode(body.get("newPass")));
+                userRepository.save(user);
+                return "Password successfully updated";
+            }
+            else return "Old password is invalid";
         }
+        return "User doesn't exist.";
     }
 
     @PostMapping("save")
     public void save(@RequestBody User user){
-        if(!userRepository.findAllByEmail(user.getEmail()).isEmpty())
-            userRepository.save(user);
+        Optional<User> dbUser = userRepository.findById(user.getId());
+        if(dbUser.isPresent()){
+            User user1 = dbUser.get();
+            user1.setEmail(user.getEmail());
+            user1.setPhoto(user.getPhoto());
+            user1.setFirstName(user.getFirstName());
+            user1.setLastName(user.getLastName());
+            userRepository.save(user1);
+        }
     }
 
     @DeleteMapping("delete")

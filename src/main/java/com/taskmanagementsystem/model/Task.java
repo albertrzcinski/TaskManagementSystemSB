@@ -23,7 +23,7 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
-    private Date dueDate;
+    private String dueDate;
     private String description;
 
     @Column(nullable = false)
@@ -42,16 +42,18 @@ public class Task {
     private Task overridingTask;
 
     @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Tag> tags;
 
     public Task() {
     }
 
-    public Task(Date creationDate, String title, boolean complete, SetOfTasks setOfTasks) {
+    public Task(Date creationDate, String title, boolean complete, SetOfTasks setOfTasks, String description) {
         this.creationDate = creationDate;
         this.title = title;
         this.complete = complete;
         this.setOfTasks = setOfTasks;
+        this.description = description;
     }
 
     public Integer getId() {
@@ -78,11 +80,11 @@ public class Task {
         this.title = title;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 

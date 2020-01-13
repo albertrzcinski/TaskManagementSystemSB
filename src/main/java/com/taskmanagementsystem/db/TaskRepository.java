@@ -14,4 +14,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     List<Task> findAllBySetOfTasks(SetOfTasks setOfTasks);
     List<Task> findAllBySetOfTasksIn(List<SetOfTasks> setOfTasksList);
     List<Task> findAllByMembers(User user);
+    List<Task> findAllByOverridingTask (Task task);
+    List<Task> findAllByTitle (String title);
 }

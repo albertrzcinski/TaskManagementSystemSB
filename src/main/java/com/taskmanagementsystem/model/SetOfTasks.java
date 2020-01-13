@@ -1,6 +1,7 @@
 package com.taskmanagementsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -53,10 +54,12 @@ public class SetOfTasks {
         this.name = name;
     }
 
+    @JsonIgnore
     public User getOwner() {
         return owner;
     }
 
+    @JsonProperty("owner")
     public void setOwner(User owner) {
         this.owner = owner;
     }

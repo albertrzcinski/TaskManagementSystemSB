@@ -1,4 +1,4 @@
-package com.taskmanagementsystem.db;
+/*package com.taskmanagementsystem.db;
 
 import com.taskmanagementsystem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +36,4 @@ public class DbInitializer implements CommandLineRunner {
         userList.add(new User("albert@int.pl", "albert3233", "Albert", "Trzcinski", "UTC", passwordEncoder.encode("alb123")));
         userRepository.saveAll(userList);
     }
-}
+}*/

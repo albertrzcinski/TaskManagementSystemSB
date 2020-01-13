@@ -19,7 +19,8 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tags")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Task> tasks;
 
