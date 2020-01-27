@@ -31,7 +31,7 @@ public class ResetController {
     }
 
     @PostMapping("reset")
-    public void reset(@RequestBody Map<String,String> body){
+    public String reset(@RequestBody Map<String,String> body){
         String email = body.get("email");
         List<User> userByEmail = userRepository.findAllByEmail(email);
         if(!userByEmail.isEmpty()){
@@ -59,6 +59,9 @@ public class ResetController {
 
             javaMailSender.send(simpleMailMessage);
         }
+        else return "Not exist.";
+
+        return "Sent";
     }
 
     @PostMapping("changePass")
