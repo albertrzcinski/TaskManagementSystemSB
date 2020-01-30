@@ -6,9 +6,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class SetOfTasks {
@@ -20,15 +17,11 @@ public class SetOfTasks {
     @Column(nullable = false)
     private String name;
 
-    //TODO R ----->
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User owner;
-
-    //@OneToMany(fetch = FetchType.LAZY, mappedBy = "setOfTasks", cascade = CascadeType.ALL)
-    //private List<Task> tasks;
 
     public SetOfTasks() {}
 
@@ -36,7 +29,6 @@ public class SetOfTasks {
         this.name = name;
         this.owner = owner;
     }
-
 
     public Integer getId() {
         return id;

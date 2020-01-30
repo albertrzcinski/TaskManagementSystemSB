@@ -43,10 +43,8 @@ public class UserController {
         return userRepository.findByUsername(username);
     }
 
-    //TODO R --> Valid
     @PostMapping("create")
     public String createUser(@Valid @RequestBody User user){
-        //TODO add findByUsername to don't create with the same username
         List<User> allByEmail = userRepository.findAllByEmail(user.getEmail());
         List<User> allByUsername = userRepository.findAllByUsername(user.getUsername());
 
@@ -54,12 +52,11 @@ public class UserController {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
 
-            //create default sets for new user
             List<SetOfTasks> setOfTasksList = new ArrayList<>();
             setOfTasksList.add(new SetOfTasks("Inbox", user));
             setOfTasksRepository.saveAll(setOfTasksList);
 
-            Task defaultTask = new Task(new Date(), "Sample task.", false, setOfTasksList.get(0),
+            Task defaultTask = new Task(new Date(), "Simple task.", false, setOfTasksList.get(0),
             "Click on task title to edit.");
             taskRepository.save(defaultTask);
 

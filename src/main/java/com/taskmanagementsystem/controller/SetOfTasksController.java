@@ -34,7 +34,6 @@ public class SetOfTasksController {
 
     @PostMapping("save")
     public void saveSet(@RequestBody SetOfTasks setOfTasks) {
-        // if(setOfTasksRepository.getAllByName(setOfTasks.getName()) != null)
             setOfTasksRepository.save(setOfTasks);
     }
 

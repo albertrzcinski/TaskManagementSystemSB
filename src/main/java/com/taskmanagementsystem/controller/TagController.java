@@ -6,7 +6,6 @@ import com.taskmanagementsystem.model.Tag;
 import com.taskmanagementsystem.model.User;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +15,10 @@ import java.util.Optional;
 public class TagController {
     private TagRepository tagRepository;
     private UserRepository userRepository;
-    private EntityManager entityManager;
 
-    public TagController(TagRepository tagRepository, UserRepository userRepository, EntityManager entityManager) {
+    public TagController(TagRepository tagRepository, UserRepository userRepository) {
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
-        this.entityManager = entityManager;
     }
 
     @GetMapping("byUser")
@@ -37,10 +34,6 @@ public class TagController {
 
     @DeleteMapping("delete")
     public void deleteTag(@RequestParam Integer id) {
-//        entityManager.remove(group)
-//        for (User user : group.users) {
-//            user.groups.remove(group);
-//        }
         tagRepository.deleteById(id);
     }
 }

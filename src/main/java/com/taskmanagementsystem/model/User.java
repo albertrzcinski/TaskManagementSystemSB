@@ -31,11 +31,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-    // default set is Inbox
-    // after create user need append default set
-    // @OneToMany(fetch= FetchType.LAZY, mappedBy = "User", cascade = CascadeType.ALL)
-    // private List<SetOfTasks> setOfTasks = new ArrayList<>();
-
     @ManyToMany
     @JsonIgnore
     private List<Task> sharedTasks;

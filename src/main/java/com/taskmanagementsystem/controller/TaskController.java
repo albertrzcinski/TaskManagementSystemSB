@@ -42,12 +42,8 @@ public class TaskController {
     @GetMapping("/byId/{id}")
     public Optional<Task> getById(@PathVariable Integer id){
         return taskRepository.findById(id);
-                /* TODO Add exceptions to all controllers
-                .orElseThrow(() -> resourcenotfoundexception);
-                 */
     }
 
-    // wyswietla tylko utworzone przeze mnie
     @GetMapping("allByOwner")
     public List<Task> getAllByOwner(@RequestParam Integer userId){
         Optional<User> user = userRepository.findById(userId);
@@ -55,7 +51,6 @@ public class TaskController {
             List<SetOfTasks> setOfTasksList = setOfTasksRepository.findAllByOwner(user.get());
             List<Task> allByOwner = taskRepository.findAllBySetOfTasksIn(setOfTasksList);
             if (allByOwner.isEmpty()) {
-                // fill the gap with exception
                 return null;
             } else
                 return allByOwner;
@@ -63,7 +58,6 @@ public class TaskController {
         return null;
     }
 
-    // wyswietla wszystkie udostepnione dla mnie
     @GetMapping("allByMember")
     public List<Task> getAllByMember(@RequestParam Integer userId){
         Optional<User> user = userRepository.findById(userId);
@@ -72,7 +66,6 @@ public class TaskController {
 
     @PostMapping("save")
     public void saveTask(@RequestBody Task task){
-        //TODO moze zmienic aby nie podawać date czy title
         taskRepository.save(task);
     }
 
@@ -190,7 +183,6 @@ public class TaskController {
 
     @PostMapping("complete")
     public boolean toggleComplete(@RequestParam Integer taskId){
-        //TODO zwracać jakiegos booleana ?
         Optional<Task> task = taskRepository.findById(taskId);
         if(task.isPresent()) {
             Task task1 = task.get();
@@ -202,7 +194,6 @@ public class TaskController {
             taskRepository.save(task1);
             return task1.isComplete();
         }
-        //TODO może tu coś zmienić, bo w przypadku błędu bedzie sie mieszać
         return false;
     }
 
@@ -230,7 +221,6 @@ public class TaskController {
         taskRepository.deleteById(taskId);
     }
 
-    //TODO usunac
     @GetMapping("findAllByTitle")
     public List<Integer> findAllByTitle(@RequestParam String title){
         List<Task> allByTitle = taskRepository.findAllByTitle(title);

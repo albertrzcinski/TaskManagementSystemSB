@@ -1,7 +1,6 @@
 package com.taskmanagementsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -27,7 +26,6 @@ public class Tag {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     private User user;
 
